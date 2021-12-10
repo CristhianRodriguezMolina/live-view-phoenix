@@ -12,7 +12,7 @@ import Config
 config :live_view_app, LiveViewAppWeb.Endpoint,
   # http: [ip: {0, 0, 0, 0}, port: System.get_env("PORT") || 4000],
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "phoenix-live-view-app.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "phoenix-live-view-app.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
