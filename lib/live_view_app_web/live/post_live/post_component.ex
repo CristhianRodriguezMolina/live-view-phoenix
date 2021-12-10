@@ -1,0 +1,51 @@
+defmodule LiveViewAppWeb.PostLive.PostComponent do
+  use LiveViewAppWeb, :live_component
+
+  alias LiveViewApp.Timeline
+
+  def render(assigns) do
+    ~H"""
+    <div id={@post.id} class="post">
+      <div class="row">
+        <div class="column column-10">
+          <div class="post-avatar"></div>
+        </div>
+        <div class="column column-90 post-body">
+          <b>@<%= @post.username %></b>
+          <br/>
+          <%= @post.body %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="column post-button-column">
+          <a href="#" phx-click="like" phx-target={@myself}>like</a>
+          <i class="far fa-heart"></i> <%= @post.likes_count %>
+        </div>
+        <div class="column post-button-column">
+          <a href="#" phx-click="repost" phx-target={@myself}>repost</a>
+          <i class="far fa-hand-peace"></i> <%= @post.reposts_count %>
+        </div>
+        <div class="column post-button-column">
+          <%= live_patch to: Routes.post_index_path(@socket, :edit, @post.id) do %>
+            Edit
+          <% end %>
+          <%= link to: "#", phx_click: "delete", phx_value_id: @post.id do %>
+            Delete
+          <% end %>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  def handle_event("like", _, socket) do
+    Timeline.inc_likes(socket.assigns.post)
+    {:noreply, socket}
+  end
+
+  def handle_event("repost", _, socket) do
+    Timeline.inc_reposts(socket.assigns.post)
+    {:noreply, socket}
+  end
+end
