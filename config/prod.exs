@@ -10,8 +10,12 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :live_view_app, LiveViewAppWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  # http: [ip: {0, 0, 0, 0}, port: System.get_env("PORT") || 4000],
+  http: [:inet6, port: System.get_env("PORT") || 4000],
+  url: [host: "phoenix-live-view-app.herokuapp.com", port: 80],
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  cache_static_manifest: "priv/static/cache_manifest.json",
+  server: true
 
 # Do not print debug messages in production
 config :logger, level: :info
