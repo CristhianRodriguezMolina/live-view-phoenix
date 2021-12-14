@@ -1,0 +1,1 @@
+call "%~dp0\live_view_app" eval LiveViewApp.Release.migrate
